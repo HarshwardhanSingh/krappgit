@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: krapp-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: rails-puma
@@ -14,7 +14,48 @@ spec:
     spec:
       containers:
         - name: krapp
-          image: harshwardhan3994/krappgit:homepage
+          image: harshwardhan3994/krappgit:changetext
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
+
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+        - name: redis
+          image: bitnami/redis:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 6379
+
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: sidekiq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sidekiq
+  template:
+    metadata:
+      labels:
+        app: sidekiq
+    spec:
+      containers:
+        - name: sidekiq
+          image: harshwardhan3994/krappgit:changetext
+          imagePullPolicy: Always
+          command: ["bundle", "exec", "sidekiq"]

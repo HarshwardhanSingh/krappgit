@@ -14,4 +14,4 @@ COPY . ./
 
 EXPOSE 3000
 
-CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+CMD ["start.sh", "exec", "rails", "server", "-b", "0.0.0.0"]
